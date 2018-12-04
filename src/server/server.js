@@ -27,7 +27,7 @@ const Message = require('./models/message');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
-app.use(express.static('public'));//Added to test sockets
+// app.use(express.static('public'));//Added to test sockets
 
 // let staticPath = path.join(__dirname + );
 // console.log('staticPath ' + staticPath);
