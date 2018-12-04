@@ -14,7 +14,7 @@ import * as types from '../constants/actionTypes';
 const initialState = {
 
 	// user that's logged in
-	currentUser: {username: 'Danni', id: '1'},
+	currentUser: {username: 'Chris', id: '3'},
 
 	// array of all users of application
 	userBase: {
@@ -46,8 +46,6 @@ const ChatBoxReducer = (state=initialState, action) => {
 	switch(action.type) {
 
     case types.POPULATE_USERS: 
-
-		console.log('payload', action.payload)
       const userBase = Object.assign({}, state.userBase);
       Object.keys(userBase).forEach(key => delete userBase[key]);
       action.payload.forEach((user) => userBase[user.id] = user.username);
@@ -69,7 +67,6 @@ const ChatBoxReducer = (state=initialState, action) => {
 			}
 
 		case types.SET_CONVO: 
-console.log(action.payload)
       currentConversation = state.currentConversation.slice();
       currentConversation = action.payload;
 
@@ -116,8 +113,6 @@ console.log(action.payload)
 				};
 
 		case types.FETCH_USER_DATA_SUCCESS:
-
-// console.log(action.payload)
 			const userData = action.payload;
 
 			return {

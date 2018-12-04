@@ -35,9 +35,7 @@ class ConvoContainer extends Component {
     const currentUser = this.props.currentUser;
     const selectConversation = this.props.selectConversation;
     const convos = Object.entries(this.props.userBase).map((user) => {
-      console.log('user', user.id)
-      console.log('currentUser', currentUser.id)
-      if (user.id !== currentUser.id) {
+      if (user[0] !== currentUser.id) {
         return (
           <Convo currentUser={currentUser} id={user[0]} name={user[1]} selectConversation={selectConversation} />
         );

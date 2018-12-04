@@ -60,7 +60,7 @@ export const getUsers = () => {
 
 export function selectConversation(currentUser, conversationPartner) {
   return dispatch => {
-    return fetch("/messages/'" + currentUser.id + "'/'" + conversationPartner + "'")
+    return fetch("/messages/" + currentUser.id + "/" + conversationPartner)
     .then(res => res.json())    
     .then(res => {
       return dispatch(setConvo(res))
@@ -71,7 +71,7 @@ export function selectConversation(currentUser, conversationPartner) {
 
 export function refreshConversation(currentUser, conversationPartner) {
   return dispatch => {
-    return fetch("/messages/'" + currentUser.id + "'/'" + conversationPartner + "'")
+    return fetch("/messages/" + currentUser.id + "/" + conversationPartner)
       .then(res => {
         return res.json()
       })
@@ -87,6 +87,8 @@ export function sendMessage(currentUser, conversationPartner, messageInput) {
   //   created_at: Date.now().toString(),
   //   message: messageInput
   // }
+
+  console.log('sending', currentUser, conversationPartner, messageInput)
 
   return dispatch => {
     return fetch("/messages", {

@@ -9,12 +9,7 @@ const addMessage = (message) => {
 
 //get all conversations between 2 users.
 const getConversations = async (sender, receiver) => {
-
-console.log('sender', sender);
-console.log('receiver', receiver);
-// console.log({senderId: senderId},{receiverId: senderId})
-
- 
+  
   const query1 = {};
   query1['senderId'] = sender;
 
@@ -23,13 +18,9 @@ console.log('receiver', receiver);
 
   const allSenderMsgs = await Message.find({
     $or:[query1, query2]
-  }, (err, result) => console.log(result));
-
-  // console.log('allSenderMsgs: ', allSenderMsgs);
-
-  return allSenderMsgs.filter((msg) => {
+  }, (err, result) => result.filter((msg) => {
     return (msg.receiverId === receiver || msg.senderId === receiver); 
-  })
+  }));
 }
 
 // // the following two funcs are not used
