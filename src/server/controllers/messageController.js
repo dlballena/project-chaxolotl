@@ -12,12 +12,13 @@ const getConversations = async (senderId, receiverId) => {
   const allSenderMsgs = await Message.find({
     $or:[{senderId: senderId},{receiverId: senderId}]
   })
+  // console.log('allsenderMSGS' + allSenderMsgs);
   return allSenderMsgs.filter((msg) => {
     return (msg.receiverId === receiverId || msg.senderId === receiverId); 
   })
 }
 
-// the following two funcs are not used
+// // the following two funcs are not used
 // const getMessageAsSender = (senderId) => {
 //   return Message.find({senderId}).exec();
 // }
@@ -28,7 +29,5 @@ const getConversations = async (senderId, receiverId) => {
 
 module.exports = {
   addMessage,
-  getMessageAsSender,
-  getMessageAsReceiver,
   getConversations
 }
