@@ -14,14 +14,11 @@ import * as types from '../constants/actionTypes';
 const initialState = {
 
 	// user that's logged in
-	currentUser: {username: 'Chris', id: '123'},
+	currentUser: {username: 'Danni', id: '1'},
 
 	// array of all users of application
 	userBase: {
-		'234': 'Jae',
-		'345': 'Evgenni'
 	},
-
 
 	// current conversation being displayed in chatbox
 	conversationPartner: '',
@@ -32,16 +29,6 @@ const initialState = {
 
 	// all conversations including currentUser
   userConversations: {
-
-		'234': [	
-			{ created_by: '123', message: 'hey dude', created_at: 'Dec 01 2018'},
-			{ created_by: '234', message: 'what up', created_at: 'Dec 01 2018'}
-    ],
-    '345': [	
-			{ created_by: '123', message: "what's the difference between a jam and a marmalade", created_at: 'Dec 01 2018'},
-			{ created_by: '234', message: 'what up', created_at: 'Dec 01 2018'}
-    ]
-
 	},
 
 	// dynamically updating what user inputs in text field
@@ -58,20 +45,31 @@ const ChatBoxReducer = (state=initialState, action) => {
 
 	switch(action.type) {
 
+    case types.POPULATE_USERS: 
+
+		console.log('payload', action.payload)
+      const userBase = Object.assign({}, state.userBase);
+      Object.keys(userBase).forEach(key => delete userBase[key]);
+      action.payload.forEach((user) => userBase[user.id] = user.username);
+
+      return {
+        ...state, 
+        userBase: userBase
+      }
+      
     //******************* SELECT CONVO ACTIONS *******************
 
     case types.SELECT_CONVO:
       
 			const partner = action.payload;
-      currentConversation = state.userConversations[partner].slice();
 
 			return {
 				...state,
 				conversationPartner: action.payload,
-				currentConversation: currentConversation
 			}
 
-    case types.REFRESH_CONVO: 
+		case types.SET_CONVO: 
+console.log(action.payload)
       currentConversation = state.currentConversation.slice();
       currentConversation = action.payload;
 

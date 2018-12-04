@@ -8,19 +8,35 @@ const addMessage = (message) => {
 }
 
 //get all conversations between 2 users.
-const getConversations = async (senderId, receiverId) => {
+const getConversations = async (sender, receiver) => {
+
+console.log('sender', sender);
+console.log('receiver', receiver);
+// console.log({senderId: senderId},{receiverId: senderId})
+
+ 
+  const query1 = {};
+  query1['senderId'] = sender;
+
+  const query2 = {};
+  query2['receiverId'] = sender;
+
   const allSenderMsgs = await Message.find({
-    $or:[{senderId: senderId},{receiverId: senderId}]
-  })
-  // console.log('allsenderMSGS' + allSenderMsgs);
+    $or:[query1, query2]
+  }, (err, result) => console.log(result));
+
+  // console.log('allSenderMsgs: ', allSenderMsgs);
+
   return allSenderMsgs.filter((msg) => {
-    return (msg.receiverId === receiverId || msg.senderId === receiverId); 
+    return (msg.receiverId === receiver || msg.senderId === receiver); 
   })
 }
 
 // // the following two funcs are not used
-// const getMessageAsSender = (senderId) => {
-//   return Message.find({senderId}).exec();
+// const getMessageAsSender = async(senderId) => {
+//   const hi = await Message.find({senderId}).exec();
+//   console.log(hi);
+//   return hi;
 // }
 
 // const getMessageAsReceiver = (receiverId) => {
@@ -29,5 +45,18 @@ const getConversations = async (senderId, receiverId) => {
 
 module.exports = {
   addMessage,
+  // getMessageAsSender,
+  // getMessageAsReceiver,
   getConversations
 }
+
+// // the following two funcs are not used
+// const getMessageAsSender = async(senderId) => {
+//   const hi = await Message.find({senderId}).exec();
+//   console.log(hi);
+//   return hi;
+// }
+
+// const getMessageAsReceiver = (receiverId) => {
+//   return Message.find({receiverId}).exec();
+// }

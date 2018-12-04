@@ -3,6 +3,7 @@ const app = express();
 
 const bodyParser = require('body-parser')
 const db = require('./db');
+const path = require('path');
 const { getAllUsers, createUser, getUserById } = require('./controllers/userController');
 const { addMessage, getConversations } = require('./controllers/messageController');
 // const User = require('./models/user');
@@ -28,17 +29,16 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.use(express.static('public'));//Added to test sockets
 
-// let staticPath = __dirname + '/../../dist';
+// let staticPath = path.join(__dirname + );
 // console.log('staticPath ' + staticPath);
 
-
+app.use(express.static("dist"));
 
 // app.use('/', require('./router'));
 
 //Home page route
-app.get('/', function (req, res) { 
-  res.send('Welcome to Chaxolotl');
-  // io.emit('message', req.body); //Added to test sockets
+app.get('/', function (req, res) {
+  res.send();
 });
 
 //Return all users from database, user object returns username and id only. 
@@ -48,28 +48,26 @@ app.get('/users', async (req, res) => {
   res.send(allUsers);
 })
 
-//Create a new user. req.body includes {id: number, username: string, password: string}
+//Create a new user. req.body includes {id: string, username: string, password: string}
 app.post('/user', (req,res) => {
   const newUser = createUser(req.body);
   res.send(newUser);
 })
 
-//Given an user id, return user object. getUsedById takes in a number as argument.
+//Given an user id, return user object. getUsedById takes in a string as argument.
 app.get('/user/:id', async (req, res) => {
   const user = await getUserById(req.params.id);
   res.send(user);  
 }) 
 
-//Get all messages between two users. getConversation func takes in two numbers as args.
+//Get all messages between two users. getConversation func takes in two strings as args.
 app.get('/messages/:senderId/:receiverId', async(req, res) => {
   // const messages = await getMessageAsSender('5c03130d48834ed55490835c');
-  console.log('typeof senderid', typeof req.params.senderId);
-  console.log('typeof receiverid', typeof req.params.receiverId);
   const conversations = await getConversations(req.params.senderId, req.params.receiverId);
   res.send(conversations);
 })
 
-// Add new message to database. req.body includes {text: string, senderId: number, receiverId: number}
+//Add new message to database. req.body includes {text: string, senderId: string, receiverId: string}
 app.post('/messages', async (req, res) => {
   const newMessage = await addMessage(req.body);
   res.send(newMessage);

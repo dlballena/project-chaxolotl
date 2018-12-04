@@ -11,8 +11,8 @@
 
  import React from 'react';
  
- const Convo = ({id, name, selectConvo}) => (
-	 	<div className="convo" id={id} onClick={() => selectConvo(id)} style={style.convo}>
+ const Convo = ({currentUser, id, name, selectConversation}) => (
+	 	<div className="convo" id={id} onClick={() => selectConversation(currentUser, id)} style={style.convo}>
 			<p className="name">{name}</p>
 		</div>
  );

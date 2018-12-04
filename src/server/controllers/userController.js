@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const User = require('../models/user');
 
 //return all users from db, but only display username and id
-const getAllUsers = () => {
+const getAllUsers = async() => {
   return User.find({})
   .select('username id')
   .exec();

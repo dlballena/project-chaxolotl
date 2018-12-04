@@ -11,6 +11,7 @@
 
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import * as actions from '../actions/actions';
 
 import ConvoContainer from './ConvoContainer';
 import RecContainer from './RecContainer';
@@ -21,6 +22,7 @@ const mapStateToProps = (store) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+	getUsers: () => dispatch(actions.getUsers())
 });
 
 
@@ -31,10 +33,8 @@ class MainContainer extends Component {
 
 	// this is where we connect that backend and frontend
 	componentDidMount() {
-		// fetch from db, and populate store with data from db
-
-		// Wait for backend connection to test this
-		//this.props.dispatch(fetchUserData(this.props.currentUser.id));
+		// populates user base of app
+		this.props.getUsers();
 	}
 
 	render() {

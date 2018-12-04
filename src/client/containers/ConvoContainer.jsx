@@ -17,11 +17,13 @@ import Convo from '../components/Convo';
 
 
 const mapStateToProps = (store) => ({
-  userBase: store.chatbox.userBase
+  userBase: store.chatbox.userBase,
+  currentUser: store.chatbox.currentUser,
+  conversationPartner: store.chatbox.conversationPartner
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  selectConvo: (event) => {dispatch(actions.selectConvo(event))}
+  selectConversation: (currentUser, conversationPartner) => {dispatch(actions.selectConversation(currentUser, conversationPartner))}
 });
 
 class ConvoContainer extends Component {
@@ -30,11 +32,16 @@ class ConvoContainer extends Component {
   }
 
 	render() {
-
+    const currentUser = this.props.currentUser;
+    const selectConversation = this.props.selectConversation;
     const convos = Object.entries(this.props.userBase).map((user) => {
-      return (
-        <Convo id={user[0]} name={user[1]} selectConvo={this.props.selectConvo} />
-      );
+      console.log('user', user.id)
+      console.log('currentUser', currentUser.id)
+      if (user.id !== currentUser.id) {
+        return (
+          <Convo currentUser={currentUser} id={user[0]} name={user[1]} selectConversation={selectConversation} />
+        );
+      }
     });
 
 		return(

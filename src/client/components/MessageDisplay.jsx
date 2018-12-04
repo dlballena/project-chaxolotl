@@ -31,7 +31,7 @@ const MessageDisplay = ({ currentUser, currentConversation, conversationPartner,
     return (
       <Message
         key={'message' + index} 
-        currentUser={currentUser} 
+        currentUser={ currentUser} 
         created_by={messageObj.senderId || messageObj.created_by}
         created_at={messageObj.created_at}
         message={messageObj.text || messageObj.message} 
@@ -39,7 +39,7 @@ const MessageDisplay = ({ currentUser, currentConversation, conversationPartner,
     )
   });
 
-  setTimeout(console.log('hiijihihio'), 2000);
+  //setTimeout(refreshConversation(currentUser, conversationPartner), 2000);
 
   // renders messages
   return (

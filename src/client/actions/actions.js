@@ -39,24 +39,43 @@ export const addMessage = (message) => ({
   payload: message
 });
 
-export const refreshConvo = (currentConversation) => ({
-  type: types.REFRESH_CONVO,
+export const setConvo = (currentConversation) => ({
+  type: types.SET_CONVO,
   payload: currentConversation
 });
 
+export const populateUsers = (users) => ({
+  type: types.POPULATE_USERS,
+  payload: users
+});
+
+export const getUsers = () => {
+  return dispatch => {
+    return fetch("/users")
+      .then(res => res.json())
+      .then(res => dispatch(populateUsers(res)))
+      .catch(error => console.error(error))
+  }
+};
+
+export function selectConversation(currentUser, conversationPartner) {
+  return dispatch => {
+    return fetch("/messages/'" + currentUser.id + "'/'" + conversationPartner + "'")
+    .then(res => res.json())    
+    .then(res => {
+      return dispatch(setConvo(res))
+    })
+    .catch(error => console.error(error))
+  }
+}
+
 export function refreshConversation(currentUser, conversationPartner) {
   return dispatch => {
-    return fetch("/messages", {
-      method: 'GET',
-      body: {
-        senderId: currentUser,
-        receiverId: conversationPartner
-      }
-    })
+    return fetch("/messages/'" + currentUser.id + "'/'" + conversationPartner + "'")
       .then(res => {
-        console.log('res', res)
-        return dispatch(refreshConvo(res))
+        return res.json()
       })
+      .then(res => dispatch(setConvo(res)))
       .catch(error => console.error(error))
   }
 }
